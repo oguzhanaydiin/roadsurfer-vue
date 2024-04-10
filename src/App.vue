@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import WeeklyCalendar from './components/WeeklyCalendar.vue'
 </script>
 
