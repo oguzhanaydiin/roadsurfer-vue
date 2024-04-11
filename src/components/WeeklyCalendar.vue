@@ -3,82 +3,20 @@
     <div class="flex items-center justify-center min-h-screen">
       <div class="container mx-auto px-4">
         <div class="bg-white rounded-lg shadow overflow-hidden">
-          <!-- Navbar -->
           <CalendarNavbar
             :selectedOption="selectedOption"
             :stations="stations"
             @update:selectedOption="handleSelectedOptionUpdate"
           />
-          <div class="flex items-center justify-between py-2 px-6">
-            <div>
-              <span class="text-lg font-bold text-gray-800">{{ weekRange }}</span>
-            </div>
-            <div class="flex gap-2">
-              <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
-                <select
-                  v-model="selectedMonth"
-                  @change="selectedMonthChanged"
-                  class="w-28 outline-none"
-                >
-                  <option v-for="(option, index) in Months" :key="index" :value="option">
-                    {{ option }}
-                  </option>
-                </select>
-              </div>
-              <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
-                <select
-                  v-model="selectedYear"
-                  @change="selectedYearChanged"
-                  class="w-28 outline-none"
-                >
-                  <option v-for="(option, index) in AvailableYears" :key="index" :value="option">
-                    {{ option }}
-                  </option>
-                </select>
-              </div>
-              <div class="border rounded-lg px-1">
-                <button
-                  type="button"
-                  class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center"
-                  @click="changeWeek(-1)"
-                >
-                  <svg
-                    class="h-6 w-6 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-                <div class="border-r inline-flex h-6"></div>
-                <button
-                  type="button"
-                  class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1"
-                  @click="changeWeek(1)"
-                >
-                  <svg
-                    class="h-6 w-6 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
+
+          <DateNavigation
+            :weekRange="weekRange"
+            :selectedMonth="selectedMonth"
+            :selectedYear="selectedYear"
+            @update:selectedMonth="selectedMonthChanged"
+            @update:selectedYear="selectedYearChanged"
+            @changeWeek="changeWeek"
+          />
 
           <WeekDays />
 
@@ -97,7 +35,7 @@
               <div class="overflow-y-auto mt-1 h-56">
                 <div
                   v-for="event in filteredEvents(date.date)"
-                  :key="event.event_title"
+                  :key="event.id"
                   class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
                   :class="themeClass(event)"
                 >
@@ -128,23 +66,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, type Ref, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import CalendarNavbar from './CalendarNavbar.vue'
-import CalendarInformation from './CalendarInformation.vue'
+import DateNavigation from './DateNavigation.vue'
 import WeekDays from './WeekDays.vue'
 import BookingDetailModal from './BookingDetailModal.vue'
+import CalendarInformation from './CalendarInformation.vue'
+import type { Booking } from '@/models/Booking'
 import type { Station } from '@/models/Station'
 import type { Event } from '@/models/Event'
 import { Months } from '@/models/Months'
-import { AvailableYears } from '@/models/AvailableYears'
-import type { Booking } from '@/models/Booking'
 
 const currentDate = ref(new Date())
 const bookingDetailTitle = ref('')
-const bookingDetailDate: Ref<undefined | Date> = ref(undefined)
+const bookingDetailDate = ref<Date | undefined>(undefined)
 const bookingDetailTheme = ref(true)
 const openBookingDetailModal = ref(false)
-const selectedOption: Ref<undefined | number> = ref(undefined)
+const selectedOption = ref<number | undefined>(undefined)
 const stations = ref<Station[]>([])
 const selectedYear = ref(currentDate.value.getFullYear())
 const selectedMonth = ref(Months[currentDate.value.getMonth()])
@@ -173,12 +111,8 @@ const weekDates = computed(() => {
 
 const bookings = computed(() => {
   const selectedStation = stations.value.find((station) => {
-    console.log('stationids: and type: ', typeof station.id)
-    console.log('selectedopinionvalue type : ', typeof selectedOption.value)
-
     return station.id.toString() === selectedOption.value?.toString()
   })
-  console.log('result: ', selectedStation)
   if (!selectedStation) return []
 
   return selectedStation.bookings
@@ -200,14 +134,6 @@ const events = computed(() =>
     }
   ])
 )
-
-const selectedMonthChanged = () => {
-  currentDate.value = new Date(currentDate.value.setMonth(Months.indexOf(selectedMonth.value)))
-}
-
-const selectedYearChanged = () => {
-  currentDate.value = new Date(currentDate.value.setFullYear(selectedYear.value))
-}
 
 function startOfWeek(date: Date) {
   const diff = date.getDay() === 0 ? -6 : 1 - date.getDay()
@@ -241,20 +167,31 @@ const showBookingDetailModal = async (id: number, date: Date) => {
 }
 
 const changeWeek = (step: number) => {
-  currentDate.value = new Date(currentDate.value.setDate(currentDate.value.getDate() + 7 * step))
-  if (currentDate.value.getMonth() !== Months.indexOf(selectedMonth.value))
-    selectedMonth.value = Months[currentDate.value.getMonth()]
+  currentDate.value = new Date(currentDate.value.setDate(currentDate.value.getDate() + step * 7))
+  selectedMonth.value = Months[currentDate.value.getMonth()]
+  selectedYear.value = currentDate.value.getFullYear()
+}
 
-  if (currentDate.value.getFullYear() !== selectedYear.value)
-    selectedYear.value = currentDate.value.getFullYear()
+const selectedMonthChanged = (month: string) => {
+  const monthIndex = Months.indexOf(month)
+  currentDate.value = new Date(currentDate.value.setMonth(monthIndex))
+  selectedMonth.value = month
+}
+
+const selectedYearChanged = (year: number) => {
+  currentDate.value = new Date(currentDate.value.setFullYear(year))
+  selectedYear.value = year
 }
 
 const handleSelectedOptionUpdate = (newValue: number) => {
-  selectedOption.value = newValue as number
+  selectedOption.value = newValue
 }
 
-const filteredEvents = (date: Date) =>
-  events.value.filter((event) => new Date(event.event_date).toDateString() === date.toDateString())
+const filteredEvents = (date: Date) => {
+  return events.value.filter(
+    (event) => new Date(event.event_date).toDateString() === date.toDateString()
+  )
+}
 
 const themeClass = (event: Event) => ({
   'border-blue-200 text-blue-800 bg-blue-100': event.isPickup,
@@ -335,9 +272,5 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching stations:', error)
   }
-})
-
-watch(bookings, (newX) => {
-  console.log(`x is ${newX}`)
 })
 </script>
