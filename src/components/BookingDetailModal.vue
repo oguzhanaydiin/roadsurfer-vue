@@ -47,7 +47,7 @@
             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
             readonly
           >
-            {{ theme ? 'Picking Up' : 'Returning' }}
+            {{ reason ? 'Picking Up' : 'Returning' }}
           </div>
         </div>
 
@@ -71,10 +71,8 @@ import { computed } from 'vue'
 const props = defineProps({
   title: String,
   date: Date,
-  theme: Boolean
+  reason: Boolean
 })
-
-console.log(props.theme)
 
 const emits = defineEmits(['close'])
 

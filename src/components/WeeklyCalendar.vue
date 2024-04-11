@@ -37,11 +37,11 @@
                   v-for="event in filteredEvents(date.date)"
                   :key="event.id"
                   class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
-                  :class="themeClass(event)"
+                  :class="bookingReasonClass(event)"
                 >
                   <p
                     @click="showBookingDetailModal(event.id, date.date)"
-                    class="text-sm truncate leading-tight"
+                    class="text-sm truncate leading-tight cursor-pointer"
                   >
                     {{ event.event_title }}
                   </p>
@@ -60,7 +60,7 @@
     v-if="openBookingDetailModal"
     :title="bookingDetailTitle"
     :date="bookingDetailDate"
-    :theme="bookingDetailTheme"
+    :reason="bookingDetailReason"
     @close="toggleEventDetailModal"
   />
 </template>
@@ -80,7 +80,7 @@ import { Months } from '@/models/Months'
 const currentDate = ref(new Date())
 const bookingDetailTitle = ref('')
 const bookingDetailDate = ref<Date | undefined>(undefined)
-const bookingDetailTheme = ref(true)
+const bookingDetailReason = ref(true)
 const openBookingDetailModal = ref(false)
 const selectedOption = ref<number | undefined>(undefined)
 const stations = ref<Station[]>([])
@@ -154,11 +154,11 @@ const showBookingDetailModal = async (id: number, date: Date) => {
 
   if (bookingDetail) {
     //if its equal with starting day then its picking up
-    bookingDetailTheme.value =
+    bookingDetailReason.value =
       date.getDay() === bookingDetail.startDate.getDay() &&
       date.getMonth() === bookingDetail.startDate.getMonth() &&
       date.getFullYear() === bookingDetail.startDate.getFullYear()
-    bookingDetailDate.value = bookingDetailTheme.value
+    bookingDetailDate.value = bookingDetailReason.value
       ? bookingDetail.startDate
       : bookingDetail.endDate
     bookingDetailTitle.value = bookingDetail.customerName
@@ -193,7 +193,7 @@ const filteredEvents = (date: Date) => {
   )
 }
 
-const themeClass = (event: Event) => ({
+const bookingReasonClass = (event: Event) => ({
   'border-blue-200 text-blue-800 bg-blue-100': event.isPickup,
   'border-green-200 text-green-800 bg-green-100': !event.isPickup
 })
