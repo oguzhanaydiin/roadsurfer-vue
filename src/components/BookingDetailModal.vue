@@ -1,9 +1,25 @@
+<!--
+  BookingDetailModal.vue
+
+  Description: 
+  This component is a modal used to display the details of a booking within a Weekly Calendar.
+
+  Props:
+  - customer (String): The name ot booking customer.
+  - date (Date): The date of booking.
+  - reason (Boolean): Reason for the booking. True for 'Picking Up', false for 'Returning'.
+
+  Emits:
+  - close: Event emitted when the modal is requested to be closed by a click event.
+-->
+
 <template>
   <div
     class="fixed z-40 top-0 right-0 left-0 bottom-0 h-full w-full"
     style="background-color: rgba(0, 0, 0, 0.5)"
   >
     <div class="p-4 max-w-xl mx-auto absolute left-0 right-0 overflow-hidden mt-24">
+      <!-- Close Modal Button -->
       <div
         class="shadow absolute right-0 top-0 w-10 h-10 rounded-full bg-white text-gray-500 hover:text-gray-800 inline-flex items-center justify-center cursor-pointer"
         @click="closeModal"
@@ -15,18 +31,21 @@
         </svg>
       </div>
 
+      <!-- Modal Card -->
       <div class="shadow w-full rounded-lg bg-white overflow-hidden block p-8">
         <h2 class="font-bold text-2xl mb-6 text-gray-800 border-b pb-2">Booking Details</h2>
 
+        <!-- Booking Title (Customer) -->
         <div class="mb-4">
           <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Customer</label>
           <div
             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
           >
-            {{ title }}
+            {{ customer }}
           </div>
         </div>
 
+        <!-- Booking Date -->
         <div class="mb-4">
           <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide"
             >Booking Date</label
@@ -39,6 +58,7 @@
           </div>
         </div>
 
+        <!-- Booking Reason -->
         <div class="mb-4">
           <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide"
             >Booking Reason</label
@@ -51,6 +71,7 @@
           </div>
         </div>
 
+        <!-- Close Modal Button -->
         <div class="mt-8 text-right">
           <button
             type="button"
@@ -69,7 +90,7 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  title: String,
+  customer: String,
   date: Date,
   reason: Boolean
 })

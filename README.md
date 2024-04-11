@@ -1,18 +1,76 @@
 # roadsurfer-vue
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a website that you can see bookings of your company easily.
 
-## Recommended IDE Setup
+## Tech Stack
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Vue3 (Composition API) + Typescript
+Vitest
+Pinia (Store will be added soon)
 
-## Type Support for `.vue` Imports in TS
+## Project Folder Structure
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+project-root/<br>
+│<br>
+├── public/<br>
+│   └── favicon.ico<br>
+│<br>
+└── src/<br>
+    ├── assets/<br>
+    │   ├── base.css<br>
+    │   ├── main.css<br>
+    │   └── title.svg<br>
+    │<br>
+    ├── components/<br>
+    │   ├── __tests__/<br>
+    │   │   ├── CalendarNavbar.spec.ts<br>
+    │   │   └── DateNavigation.spec.ts<br>
+    │   ├── icons/<br>
+    │   │   └── RoadSurferLogo.vue<br>
+    │   ├── BookingDetailModal.vue<br>
+    │   ├── CalendarInformation.vue<br>
+    │   ├── CalendarNavbar.vue<br>
+    │   ├── DateNavigation.vue<br>
+    │   ├── WeekDays.vue<br>
+    │   └── WeeklyCalendar.vue<br>
+    │
+    ├── models/<br>
+    │   ├── AvailableYears.ts<br>
+    │   ├── Booking.ts<br>
+    │   ├── Event.ts<br>
+    │   ├── Months.ts<br>
+    │   ├── Station.ts<br>
+    │   └── WeekDays.ts<br>
+    │
+    ├── utils/ 
+    │   └── db.ts<br>
+    │
+    ├── App.vue<br>
+    ├── main.ts<br>
+    ├── .eslintrc.cjs<br>
+    ├── .gitignore.cjs<br>
+    ├── .nojekyll<br>
+    ├── .prettierrc.json<br>
+    ├── .env.d.ts<br>
+    ├── index.html<br>
+    ├── package-lock.json<br>
+    ├── package.json<br>
+    ├── postcss.config.js<br>
+    ├── README.md<br>
+    ├── tailwind.config.js<br>
+    ├── tsconfig.app.json<br>
+    ├── tsconfig.json<br>
+    ├── tsconfig.node.json<br>
+    ├── tsconfig.vitest.json<br>
+    ├── vite.config.ts<br>
+    ├── vitest.config.ts<br>
+    └── vue.config.ts<br>
 
-## Customize configuration
+## Sources:
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+App's UI idea is coming from this component: 
+https://tailwindcomponents.com/component/calendar-ui-with-tailwindcss-and-alpinejs <br>
+I edited it to be a weekly UI.
 
 ## Project Setup
 
@@ -36,10 +94,4 @@ npm run build
 
 ```sh
 npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```

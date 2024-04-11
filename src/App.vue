@@ -1,3 +1,8 @@
+<!-- 
+ * App.vue
+ * 
+ * Description: Root component to run the App
+ */ -->
 <script setup lang="ts">
 import WeeklyCalendar from './components/WeeklyCalendar.vue'
 </script>

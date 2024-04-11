@@ -1,3 +1,16 @@
+<!--
+  Component: CalendarNavbar.vue
+
+  Description:
+  Shows the Roadsurfer logo and a station selection dropdown. 
+
+  Props:
+  - selectedOption: Id for the selected station.
+  - stations: List of stations.
+
+  Emits:
+  - update:selectedOption: The selected station.
+-->
 <template>
   <div class="flex items-center justify-between bg-[#6bbbae] py-2 px-6">
     <!-- Title -->
@@ -20,16 +33,16 @@ import RoadsurferLogo from './icons/RoadsurferLogo.vue'
 import { computed, toRefs } from 'vue'
 import type { Station } from '@/models/Station'
 
-// Define props
 const props = defineProps<{
   selectedOption: number | undefined
   stations: Station[]
 }>()
+
 const emits = defineEmits(['update:selectedOption'])
-// Destructure props
+
+// Turning refs into plain objects
 const { selectedOption, stations } = toRefs(props)
 
-// Define a computed property for the selected option value
 const selectedOptionValue = computed(() => selectedOption.value)
 
 const dropdownOptions = computed(() => {
@@ -38,6 +51,7 @@ const dropdownOptions = computed(() => {
   })
 })
 
+// change parent component's selectOption
 const selectOption = (event: Event) => {
   const selectedValue = (event.target as HTMLSelectElement).value
 

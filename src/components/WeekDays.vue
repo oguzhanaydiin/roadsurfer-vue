@@ -1,3 +1,11 @@
+<!--
+  Component: WeekDays.vue
+
+  Description:
+  Displays the days of the week in a row. 
+  
+-->
+
 <template>
   <!-- Week Days Row -->
   <div class="grid grid-cols-7 border-b">

@@ -1,3 +1,12 @@
+<!--
+  Component: CalendarInformation.vue
+
+  Description:
+  This component is used to provide a visual guide to the statuses used in the calendar,
+  specifically 'Picking Up' and 'Returning'.
+  
+-->
+
 <template>
   <div class="flex items-center justify-end border-t py-2 px-6">
     <div class="flex items-center gap-2">

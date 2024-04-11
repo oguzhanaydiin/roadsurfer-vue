@@ -1,9 +1,29 @@
+<!--
+  Component: DateNavigation.vue
+
+  Description:
+  Controls for navigating calendar weeks with previous and next buttons, selecting months, and years.
+
+  Props:
+  - weekRange: Displayed week range.
+  - selectedMonth: Current month selection.
+  - selectedYear: Current year selection.
+
+  Emits:
+  - update:selectedMonth: When the month changes.
+  - update:selectedYear: When the year changes.
+  - changeWeek: When navigating weeks.
+-->
+
 <template>
   <div class="flex items-center justify-between py-2 px-6">
+    <!-- Week Range Display -->
     <div>
       <span class="text-lg font-bold text-gray-800">{{ weekRange }}</span>
     </div>
+
     <div class="flex gap-2">
+      <!-- Change Month -->
       <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
         <select v-model="selectedMonth" @change="selectedMonthChanged" class="w-28 outline-none">
           <option v-for="(option, index) in Months" :key="index" :value="option">
@@ -11,6 +31,7 @@
           </option>
         </select>
       </div>
+      <!-- Change Year -->
       <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
         <select v-model="selectedYear" @change="selectedYearChanged" class="w-28 outline-none">
           <option v-for="(option, index) in AvailableYears" :key="index" :value="option">
@@ -18,7 +39,9 @@
           </option>
         </select>
       </div>
+      <!-- Navigate Through Weeks -->
       <div class="border rounded-lg px-1">
+        <!-- Previous Week -->
         <button
           id="previous-week"
           type="button"
@@ -35,6 +58,7 @@
           </svg>
         </button>
         <div class="border-r inline-flex h-6"></div>
+        <!-- Next Week -->
         <button
           id="next-week"
           type="button"
