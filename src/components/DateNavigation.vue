@@ -16,16 +16,20 @@
 -->
 
 <template>
-  <div class="flex items-center justify-between py-2 px-6">
+  <div class="flex items-center justify-between py-2 px-1 md:px-6">
     <!-- Week Range Display -->
     <div>
-      <span class="text-lg font-bold text-gray-800">{{ weekRange }}</span>
+      <span class="text-sm md:text-lg font-bold text-gray-800">{{ weekRange }}</span>
     </div>
 
-    <div class="flex gap-2">
+    <div class="flex gap-1 md:gap-2">
       <!-- Change Month -->
       <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
-        <select v-model="selectedMonth" @change="selectedMonthChanged" class="w-28 outline-none">
+        <select
+          v-model="selectedMonth"
+          @change="selectedMonthChanged"
+          class="w-14 outline-none bg-white"
+        >
           <option v-for="(option, index) in Months" :key="index" :value="option">
             {{ option }}
           </option>
@@ -33,14 +37,18 @@
       </div>
       <!-- Change Year -->
       <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
-        <select v-model="selectedYear" @change="selectedYearChanged" class="w-28 outline-none">
+        <select
+          v-model="selectedYear"
+          @change="selectedYearChanged"
+          class="w-14 outline-none bg-white"
+        >
           <option v-for="(option, index) in AvailableYears" :key="index" :value="option">
             {{ option }}
           </option>
         </select>
       </div>
       <!-- Navigate Through Weeks -->
-      <div class="border rounded-lg px-1">
+      <div class="border rounded-lg md:px-1">
         <!-- Previous Week -->
         <button
           id="previous-week"
