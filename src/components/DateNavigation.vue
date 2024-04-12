@@ -40,7 +40,7 @@
         <select
           v-model="selectedYear"
           @change="selectedYearChanged"
-          class="w-14 outline-none bg-white"
+          class="w-16 outline-none bg-white"
         >
           <option v-for="(option, index) in AvailableYears" :key="index" :value="option">
             {{ option }}

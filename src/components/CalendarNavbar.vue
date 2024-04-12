@@ -19,7 +19,11 @@
     </div>
     <!-- Stations dropdown -->
     <div class="flex items-center border bg-white rounded-lg px-1 h-[34.67px]">
-      <select v-model="selectedOptionValue" @change="selectOption" class="w-28 outline-none">
+      <select
+        v-model="selectedOptionValue"
+        @change="selectOption"
+        class="w-28 outline-none bg-white"
+      >
         <option v-for="(option, index) in dropdownOptions" :key="index" :value="option.value">
           {{ option.label }}
         </option>
